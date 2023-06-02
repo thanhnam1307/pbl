@@ -1,20 +1,21 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <math.h>
+#include <cmath>
 #define eps 0.00001
 using namespace std;
-float a[100][100], b[100][100], c[100], s[100], f[100];
+double a[100][100], b[100][100], c[100], s[100], f[100];
 int n;
+
 // Định nghĩa cấu trúc Node cho danh sách liên kết đơn
 struct Node
 {
-          int data;
+          double data;
           Node *next;
 };
 
 // Hàm chèn một phần tử vào danh sách liên kết đơn
-void insert(Node **head, int data)
+void insert(Node **head, double data)
 {
           Node *newNode = new Node;
           newNode->data = data;
@@ -36,7 +37,7 @@ void insert(Node **head, int data)
 }
 
 // Hàm chèn một phần tử vào danh sách liên kết đơn tại vị trí M/2 bằng cách nhập từ bàn phím
-void insertAtIndex(Node **head, int data, int index)
+void insertAtIndex(Node **head, double data, int index)
 {
           if (index == 0)
           {
@@ -85,13 +86,13 @@ void printMatrix(Node **matrix, int size)
           }
 }
 
-int convertNodeToNumber(Node *node)
+double convertNodeToNumber(Node *node)
 {
           return node->data;
 }
 
 // Hàm lấy ra các phần tử của ma trận và lưu vào mảng
-void getMatrixElements(Node **matrix, int size, int *arr, int arrSize)
+void getMatrixElements(Node **matrix, int size, double *arr, int arrSize)
 {
           int index = 0;
 
@@ -105,11 +106,14 @@ void getMatrixElements(Node **matrix, int size, int *arr, int arrSize)
                     }
           }
 }
-bool check(float s[100], float f[100])
+
+bool check(double s[100], double f[100])
 {
           for (int i = 1; i <= n; i++)
+          {
                     if (fabs(s[i] - f[i]) > eps)
                               return false;
+          }
           return true;
 }
 
@@ -187,7 +191,7 @@ int main()
           bool continueLoop = true;
           while (continueLoop)
           {
-                    cout << "_____________Phuong Phap Tinh" << endl;
+                    cout << "\n\n_____________Phuong Phap Tinh_____________" << endl;
                     cout << "1.Ban muon nhap ham so o dau" << endl;
                     cout << "1.1 Nhap truc tiep tai day(an phim 1)" << endl;
                     cout << "1.2 Nhap trong File(an phim 2)" << endl;
@@ -216,7 +220,7 @@ int main()
                                         matrix[i] = nullptr;
                                         for (int j = 0; j < N - 1; j++)
                                         {
-                                                  int data;
+                                                  double data;
                                                   inFile >> data;
                                                   insert(&matrix[i], data);
                                         }
@@ -231,7 +235,7 @@ int main()
                                         {
                                                   roundIndex++;
                                         }
-                                        int a;
+                                        double a;
                                         cout << "Nhap gia tri muon chen: ";
                                         cin >> a;
                                         insertAtIndex(&matrix[i], a, roundIndex);
@@ -294,14 +298,14 @@ int main()
                                         matrix[i] = nullptr;
                                         for (int j = 0; j < N - 1; j++)
                                         {
-                                                  int data;
+                                                  double data;
                                                   inFile1 >> data;
                                                   insert(&matrix[i], data);
                                         }
                               }
                               inFile1.close();
-                              const int MAX_ELEMENTS = 100;     // Số lượng phần tử tối đa trong mảng
-                              int matrixElements[MAX_ELEMENTS]; // Mảng để lưu các phần tử của ma trận
+                              const int MAX_ELEMENTS = 100;        // Số lượng phần tử tối đa trong mảng
+                              double matrixElements[MAX_ELEMENTS]; // Mảng để lưu các phần tử của ma trận
 
                               // Lấy các phần tử của ma trận và lưu vào mảng
                               getMatrixElements(matrix, N, matrixElements, MAX_ELEMENTS);
@@ -362,7 +366,7 @@ int main()
                     break;
                     case 3:
                     {
-                              cout << "Nam dep trai vkl" << endl;
+                              //  cout << "Nam dep trai vkl" << endl;
                               ifstream inFile("DAYSO.IN");
                               if (!inFile)
                               {
@@ -407,7 +411,30 @@ int main()
                               }
                               chuyen();
                               if (kiemTra())
+                              {
                                         process();
+                                        std::ofstream file("RESULT2.OUT");
+
+                                        // Kiểm tra xem file có mở thành công không
+                                        if (!file)
+                                        {
+                                                  std::cerr << "Không thể mở file!" << std::endl;
+                                                  return 1;
+                                        }
+
+                                        // Ghi các phần tử của mảng vào file
+                                        for (int i = 1; i <= N; i++)
+                                        {
+                                                  file << s[i] << std::endl;
+                                        }
+
+                                        // Đóng file sau khi ghi xong
+                                        file.close();
+
+                                        std::cout << "cac phan tu da duoc luu vao file RESULT2.OUT." << std::endl;
+
+                                        ///
+                              }
                               else
                                         cout << "ban nhap he phuong trinh khong phu hop!!!";
                     }
